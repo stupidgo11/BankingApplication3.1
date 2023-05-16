@@ -9,13 +9,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Bank {
-    private String name;
+    private String bankName;
     
-    public Bank(String name){
-        this.name = name;
+    
+    public Bank(){
+        this.bankName = bankName;
     }
     
-    public void listAcoounts(){
+    public Bank(String bankName){
+        this.bankName = bankName;
+    }
+    
+    public void listAccounts(){
         Connection con = BankConnection.connect();
         
         
@@ -26,7 +31,7 @@ public class Bank {
             
             while(results.next()) {
                 System.out.println(results.getString(1)+" "+results.getString(2)+" "
-                        +results.getString(3));
+                        +results.getString(3)+" "+results.getString(4));
             }
             
         } catch (SQLException ex) {
@@ -37,13 +42,14 @@ public class Bank {
     
     public void openAcoount(Account account){
         Connection con = BankConnection.connect();
-        String sql = "insert into account(accID,accName,accBalance)"
-                    + "values(?,?,?)";
+        String sql = "insert into account(accID,accName,accBalance,accType)"
+                    + "values(?,?,?,?)";
         try {    
             PreparedStatement preparedStatement= con.prepareStatement(sql);
             preparedStatement.setInt(1, account.getNumber());
             preparedStatement.setString(2, account.getName());
             preparedStatement.setDouble(3, account.getBalance());
+            preparedStatement.setString(4, account.getAccountType());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,7 +115,15 @@ public class Bank {
             }
 //            String accountName =results.getString(2);
 //            double balance=results.getDouble(3);
-            account = new Account(number,accountName,balance);
+            
+            if(account.getAccountType().equals("SavingsAccount")){
+                account = new SavingsAccount(number,accountName,balance);
+            }
+            if(account.getAccountType().equals("CurrentAccount")){
+                account = new CurrentAccount(number,accountName,balance);
+            }
+            
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
