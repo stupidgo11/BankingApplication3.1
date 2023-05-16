@@ -11,7 +11,7 @@ public class CurrentAccount implements Account{
         this.accountNumber=accountNumber;
         this.accountName=accountName;
         this.balance=balance;
-        this.minimum=0;
+        this.minimum=1000;
     }
     
     @Override

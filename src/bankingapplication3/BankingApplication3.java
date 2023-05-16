@@ -42,9 +42,9 @@ public class BankingApplication3 {
                     balance = scan.nextDouble();
                     System.out.print("Enter Account (s --> SavingsAccount or c --> CurrentAccount)): ");
                     accountType = scan.next();
-                    if(accountType.equals("s")){
+                    if(accountType.toLowerCase().equals("s")){
                         account = new SavingsAccount(number,name,balance);
-                    }if(accountType.equals("c")){
+                    }if(accountType.toLowerCase().equals("c")){
                         account = new CurrentAccount(number,name,balance);
                     }
                     bank.openAcoount(account);
@@ -90,14 +90,30 @@ public class BankingApplication3 {
                 case 3:
                     System.out.print("Enter Account Number: ");
                     number = scan.nextInt();
-                    bank.closeAcoount(number);
+                    System.out.print("Enter Account (s --> SavingsAccount or c --> CurrentAccount)): ");
+                    accountType = scan.next();
+                    
+                    if(accountType.toLowerCase().equals("s")){
+                        account = bank.getAccount(number,"SavingsAccount");
+                    }if(accountType.toLowerCase().equals("c")){
+                        account = bank.getAccount(number,"CurrentAccount");
+                    }
+                    
+                    bank.closeAcoount(account);
                     System.out.println("Account is Deleted");
                     System.out.println();
                     break;
                 case 4:
                     System.out.print("Enter Account Number: ");
                     number = scan.nextInt();
-                    account = bank.getAccount(number);
+                    System.out.print("Enter Account (s --> SavingsAccount or c --> CurrentAccount)): ");
+                    accountType = scan.next();
+                    if(accountType.toLowerCase().equals("s")){
+                        accountType="SavingsAccount";
+                    }if(accountType.toLowerCase().equals("c")){
+                        accountType="CurrentAccount";
+                    }
+                    account = bank.getAccount(number,accountType);
                     System.out.print("Enter Amount: ");
                     amount = scan.nextDouble();
                     bank.depositMoney(account, amount);
@@ -106,7 +122,14 @@ public class BankingApplication3 {
                 case 5:
                     System.out.print("Enter Account Number: ");
                     number = scan.nextInt();
-                    account = bank.getAccount(number);
+                    System.out.print("Enter Account (s --> SavingsAccount or c --> CurrentAccount)): ");
+                    accountType = scan.next();
+                    if(accountType.toLowerCase().equals("s")){
+                        accountType="SavingsAccount";
+                    }if(accountType.toLowerCase().equals("c")){
+                        accountType="CurrentAccount";
+                    }
+                    account = bank.getAccount(number,accountType);
                     System.out.print("Enter Amount: ");
                     amount = scan.nextDouble();
                     bank.withdrawMoney(account, amount);
